@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Matteo Lucchetti — Comic Book Artist & Concept Artist</title>
+  <meta name="description" content="Visual Storyteller through Comics and Concept Art" />
+  <style>
+    :root{--bg:#0f1115;--card:#0f1720;--muted:#b8c1c9;--accent:#e76f51;--glass:rgba(255,255,255,0.04)}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;background:linear-gradient(180deg,#07080a 0%, #0c0e12 100%);color:#e6eef6}
+    .container{max-width:1100px;margin:28px auto;padding:24px}
+    header{display:flex;align-items:center;gap:16px}
+    .brand{display:flex;flex-direction:column}
+    h1{margin:0;font-size:22px;letter-spacing:0.4px}
+    h2{margin:4px 0 0;font-size:14px;color:var(--muted);font-weight:400}
+    .actions{margin-left:auto;display:flex;gap:10px}
+    .btn{background:var(--glass);border:1px solid rgba(255,255,255,0.04);padding:10px 14px;border-radius:10px;color:inherit;text-decoration:none;font-weight:600;cursor:pointer}
+    .btn.primary{background:linear-gradient(90deg,var(--accent),#ff8a65);color:#071019;border:none}
+
+    /* sections */
+    nav.categories{display:flex;gap:8px;flex-wrap:wrap;margin:20px 0}
+    .cat{padding:8px 12px;background:#0a1016;border-radius:999px;cursor:pointer;border:1px solid rgba(255,255,255,0.03)}
+
+    /* gallery grid */
+    .gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
+    .thumb{position:relative;overflow:hidden;border-radius:8px;background:#081019;padding:6px;cursor:pointer}
+    .thumb img{display:block;width:100%;height:220px;object-fit:cover;border-radius:6px;transition:transform .25s}
+    .thumb:hover img{transform:scale(1.03)}
+    .thumb .label{position:absolute;left:8px;bottom:8px;background:rgba(0,0,0,0.4);padding:6px 8px;border-radius:6px;font-size:12px}
+
+    /* modal/lightbox */
+    .lightbox{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(2,6,10,0.8);z-index:9999}
+    .lightbox.open{display:flex}
+    .lightbox .panel{max-width:95%;max-height:92%;display:flex;flex-direction:column;gap:10px}
+    .lightbox img{max-width:100%;max-height:82vh;border-radius:6px;object-fit:contain}
+    .lightbox .controls{display:flex;align-items:center;gap:8px;justify-content:center}
+    .icon-btn{background:rgba(0,0,0,0.35);border:1px solid rgba(255,255,255,0.06);padding:8px;border-radius:8px;color:inherit;cursor:pointer}
+
+    /* published comics */
+    .published{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
+    .pub-item{width:140px;text-align:center}
+    .pub-item img{width:100%;height:200px;object-fit:cover;border-radius:6px}
+    .muted{color:var(--muted)}
+
+    /* embed area */
+    .embed-wrap{width:100%;height:520px;background:#071018;border-radius:8px;overflow:hidden}
+    iframe{border:0;width:100%;height:100%}
+
+    footer{margin:40px 0 18px;text-align:center;color:var(--muted)}
+
+    @media (max-width:600px){.thumb img{height:150px}}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <h1>Matteo Lucchetti — Comic Book Artist & Concept Artist</h1>
+        <h2>Visual Storyteller through Comics and Concept Art</h2>
+      </div>
+
+      <div class="actions">
+        <!-- Set your CV file/link in the data-cv attribute in the script section -->
+        <a class="btn" id="cvBtn" href="#">Open CV</a>
+        <a class="btn primary" href="#portfolio">Portfolio</a>
+      </div>
+    </header>
+
+    <section style="margin-top:18px">
+      <nav class="categories" id="categoryNav">
+        <div class="cat" data-category="all">All</div>
+        <div class="cat" data-category="character">Character Art</div>
+        <div class="cat" data-category="environment">Environment / Landscape</div>
+        <div class="cat" data-category="illustration">Illustrations</div>
+        <div class="cat" data-category="comic">Comic Book Pages</div>
+        <div class="cat" data-category="storyboard">Storyboard (Google Slides)</div>
+      </nav>
+    </section>
+
+    <!-- Portfolio grid -->
+    <section id="portfolio">
+      <div id="galleryArea">
+        <div class="gallery-grid" id="galleryGrid">
+          <!--
+            Inserisci qui le miniature. Ogni .thumb ha questi attributi utili:
+            data-category (character|environment|illustration|comic|published)
+            data-full = percorsocompleto/immagine‑alta‑risoluzione.jpg
+            data-title = Titolo o didascalia
+            Esempio:
+            <div class="thumb" data-category="character" data-full="/images/character/char01-large.jpg" data-title="Personaggio A - 2025">
+              <img src="/images/character/char01-thumb.jpg" alt="Personaggio A">
+              <div class="label">Personaggio A</div>
+            </div>
+          -->
+
+        </div>
+      </div>
+
+      <!-- Storyboard (Google Slides embed). Inserisci il tuo link embed di Google Slides nello script sotto. -->
+      <div id="storyboardSection" style="display:none;margin-top:20px">
+        <h3 class="muted">Storyboard (visualizza come sequenza)</h3>
+        <div class="embed-wrap">
+          <iframe id="slidesEmbed" src="" allowfullscreen></iframe>
+        </div>
+      </div>
+
+      <!-- Published comics / shop links -->
+      <div style="margin-top:28px">
+        <h3>Published / For Sale</h3>
+        <div class="published" id="publishedList">
+          <!-- Esempio:
+            <div class="pub-item">
+              <a href="https://www.amazon.it/yourcomic" target="_blank">
+                <img src="/images/published/book1.jpg" alt="Book cover">
+                <div class="muted">Title — Amazon</div>
+              </a>
+            </div>
+          -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+      <div class="panel">
+        <img id="lightboxImg" src="" alt="">
+        <div class="controls">
+          <button class="icon-btn" id="prevBtn">◀ Prev</button>
+          <button class="icon-btn" id="nextBtn">Next ▶</button>
+          <button class="icon-btn" id="closeBtn">Close ✕</button>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      © Matteo Lucchetti — Comic Book Artist. Built with a lightweight HTML template.
+    </footer>
+  </div>
+
+  <script>
+    /*************** CONFIG: imposta i link qui ****************/
+    const CONFIG = {
+      cvLink: 'assets/CV-Matteo-Lucchetti.pdf', // sostituisci con il link al tuo CV (può essere URL esterno o percorso locale)
+      slidesEmbedSrc: 'https://docs.google.com/presentation/d/e/YOUR_SLIDES_ID/embed?start=false&loop=false&delayms=3000',
+      // inserisci qui i tuoi elementi pubblicati (thumbnail + link). Puoi aggiungerne altri manualmente.
+      published: [
+        // {thumb: 'images/published/book1.jpg', title:'Titolo 1 — Amazon', link: 'https://amazon...'},
+      ]
+    }
+    /**********************************************************/
+
+    // set CV button
+    document.getElementById('cvBtn').addEventListener('click', (e)=>{
+      e.preventDefault();
+      const link = CONFIG.cvLink;
+      if(!link){ alert('Imposta CONFIG.cvLink nello script e ricarica la pagina'); return }
+      window.open(link,'_blank');
+    })
+
+    // categories
+    const categoryNav = document.getElementById('categoryNav')
+    const galleryGrid = document.getElementById('galleryGrid')
+    const storyboardSection = document.getElementById('storyboardSection')
+    categoryNav.addEventListener('click',(e)=>{
+      const cat = e.target.dataset.category
+      if(!cat) return
+      if(cat === 'all'){
+        Array.from(galleryGrid.children).forEach(n=>n.style.display='block')
+        storyboardSection.style.display='none'
+      } else if(cat === 'storyboard'){
+        Array.from(galleryGrid.children).forEach(n=>n.style.display='none')
+        storyboardSection.style.display='block'
+        const iframe = document.getElementById('slidesEmbed')
+        iframe.src = CONFIG.slidesEmbedSrc
+      } else {
+        storyboardSection.style.display='none'
+        Array.from(galleryGrid.children).forEach(n=>{
+          n.style.display = (n.dataset.category === cat) ? 'block' : 'none'
+        })
+      }
+    })
+
+    // populate published
+    const publishedList = document.getElementById('publishedList')
+    function renderPublished(){
+      CONFIG.published.forEach(p=>{
+        const div = document.createElement('div')
+        div.className = 'pub-item'
+        div.innerHTML = `<a href="${p.link}" target="_blank"><img src="${p.thumb}" alt="${p.title}"><div class="muted">${p.title}</div></a>`
+        publishedList.appendChild(div)
+      })
+    }
+    renderPublished()
+
+    // LIGHTBOX logic
+    let currentIndex = -1
+    function openLightbox(index, items){
+      currentIndex = index
+      const item = items[index]
+      const img = document.getElementById('lightboxImg')
+      img.src = item.dataset.full || item.querySelector('img').src
+      img.alt = item.dataset.title || ''
+      document.getElementById('lightbox').classList.add('open')
+    }
+
+    function closeLightbox(){ document.getElementById('lightbox').classList.remove('open') }
+    document.getElementById('closeBtn').addEventListener('click',closeLightbox)
+
+    document.getElementById('prevBtn').addEventListener('click',()=>{
+      const items = Array.from(galleryGrid.querySelectorAll('.thumb')).filter(n=>n.style.display!=='none')
+      if(items.length===0) return
+      currentIndex = (currentIndex - 1 + items.length) % items.length
+      openLightbox(currentIndex, items)
+    })
+    document.getElementById('nextBtn').addEventListener('click',()=>{
+      const items = Array.from(galleryGrid.querySelectorAll('.thumb')).filter(n=>n.style.display!=='none')
+      if(items.length===0) return
+      currentIndex = (currentIndex + 1) % items.length
+      openLightbox(currentIndex, items)
+    })
+
+    // click thumbnails
+    galleryGrid.addEventListener('click',(e)=>{
+      const thumb = e.target.closest('.thumb')
+      if(!thumb) return
+      const items = Array.from(galleryGrid.querySelectorAll('.thumb')).filter(n=>n.style.display!=='none')
+      const index = items.indexOf(thumb)
+      openLightbox(index, items)
+    })
+
+    // keyboard navigation
+    window.addEventListener('keydown',(e)=>{
+      if(document.getElementById('lightbox').classList.contains('open')){
+        if(e.key === 'Escape') closeLightbox()
+        if(e.key === 'ArrowLeft') document.getElementById('prevBtn').click()
+        if(e.key === 'ArrowRight') document.getElementById('nextBtn').click()
+      }
+    })
+
+    /*************** SUGGERIMENTI PER L'USO ****************/
+      - Crea cartelle per immagini: /images/character/, /images/environment/, /images/illustration/, /images/comic/, /images/published/
+      - Per ogni immagine aggiungi nel markup HTML un div .thumb come commentato nella sezione #galleryGrid
+      - data-full dovrebbe puntare all'immagine in alta risoluzione; <img src> può puntare a una miniatura (consigliato) per velocità
+      - Per lo storyboard: apri il tuo Google Slides -> File -> Pubblica sul Web -> Incorpora -> copia l'URL embed e incollalo in CONFIG.slidesEmbedSrc
+      - Per il CV: caricalo in assets/CV-Matteo-Lucchetti.pdf oppure inserisci un link esterno nella variabile CONFIG.cvLink
+      - Per pubblicati: aggiungi oggetti in CONFIG.published o inserisci manualmente gli elementi nella sezione #publishedList
+    ********************************************************/
+  </script>
+</body>
+</html>
